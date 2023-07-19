@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import firebase from 'firebase/compat/app'; // Cambiamos la importación aquí
-import 'firebase/compat/auth'; // Cambiamos la importación aquí
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 const Authentication = () => {
   const [email, setEmail] = useState('');
@@ -29,7 +29,17 @@ const Authentication = () => {
       });
   };
 
-  
+  const handleGoogleSignIn = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+      .then((result) => {
+        console.log('Inicio de sesión con Google exitoso:', result.user);
+      })
+      .catch((error) => {
+        console.error('Error de inicio de sesión con Google:', error);
+      });
+  };
+
   return (
     <Container>
       <Row className="justify-content-center mt-5">
@@ -61,6 +71,10 @@ const Authentication = () => {
 
             <Button variant="secondary" type="submit" onClick={handleRegister}>
               Registrarse
+            </Button>
+
+            <Button variant="success" type="button" onClick={handleGoogleSignIn}>
+              Iniciar sesión con Google
             </Button>
           </Form>
         </Col>
